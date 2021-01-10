@@ -26,6 +26,7 @@ const progressStart = (to, from, next) => {
  * @param next
  * @param options
  */
+// eslint-disable-next-line no-unused-vars
 const loginGuard = (to, from, next, options) => {
   const {message} = options
   if (!loginIgnore.includes(to) && !checkAuthorization()) {
@@ -43,6 +44,7 @@ const loginGuard = (to, from, next, options) => {
  * @param next
  * @param options
  */
+// eslint-disable-next-line no-unused-vars
 const authorityGuard = (to, from, next, options) => {
   const {store, message} = options
   const permissions = store.getters['account/permissions']
@@ -99,6 +101,7 @@ const progressDone = () => {
 }
 
 export default {
-  beforeEach: [progressStart, loginGuard, authorityGuard, redirectGuard],
+  // beforeEach: [progressStart, loginGuard, authorityGuard, redirectGuard],
+  beforeEach: [progressStart, redirectGuard],
   afterEach: [progressDone]
 }

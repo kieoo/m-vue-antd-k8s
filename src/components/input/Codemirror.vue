@@ -15,9 +15,10 @@ export default {
     codemirror
   },
   name: "KCodemirror",
+  props: ['mycode'],
   data () {
     return {
-      code: 'version:',
+      code: this.mycode,
       cmOptions: {
         tabSize: 4,
         mode: 'text/x-python',

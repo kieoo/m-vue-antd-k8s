@@ -18,7 +18,7 @@
             </a>
           </a-tooltip>
           <header-notice class="header-item"/>
-          <header-avatar class="header-item"/>
+<!--          <header-avatar class="header-item"/>-->
           <a-dropdown class="lang header-item">
             <div>
               <a-icon type="global"/> {{langAlias}}
@@ -35,13 +35,14 @@
 <script>
 import HeaderSearch from './HeaderSearch'
 import HeaderNotice from './HeaderNotice'
-import HeaderAvatar from './HeaderAvatar'
+
 import IMenu from '@/components/menu/menu'
 import {mapState, mapMutations} from 'vuex'
 
 export default {
   name: 'AdminHeader',
-  components: {IMenu, HeaderAvatar, HeaderNotice, HeaderSearch},
+  // components: {IMenu, HeaderAvatar, HeaderNotice, HeaderSearch},
+  components: {IMenu, HeaderNotice, HeaderSearch},
   props: ['collapsed', 'menuData'],
   data() {
     return {
