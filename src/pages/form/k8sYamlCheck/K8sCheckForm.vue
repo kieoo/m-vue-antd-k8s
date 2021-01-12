@@ -1,12 +1,12 @@
 <template>
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
-    <a-form @submit="handleSubmit" :form="form" class="form">
+    <a-form>
       <a-row class="form-row" :gutter="5">
         <a-col :lg="12" :md="12" :sm="24">
-          <k-codemirror mycode="code1"></k-codemirror>
+          <k-codemirror v-on:codeByValue="getSonCode"></k-codemirror>
         </a-col>
         <a-col :xl="{span: 12}" :lg="{span: 12}" :md="{span: 12}" :sm="24">
-          <k-codemirror mycode="code2"></k-codemirror>
+          <k-codemirror :myCode="code2"></k-codemirror>
         </a-col>
       </a-row>
       <a-form-item>
@@ -29,12 +29,19 @@ export default {
     return {
       value: 1,
       myOriCode: "",
-      k8sCheckCode: ""
+      k8sCheckCode: "",
+      code1: "",
+      code2: ""
     }
   },
   methods: {
     changeMyYaml: function () {
+      this.code2 = this.code1
+      console.log('father is readied!', this.code2)
 
+    },
+    getSonCode: function (childV) {
+      this.code1 = childV
     }
   },
   computed: {

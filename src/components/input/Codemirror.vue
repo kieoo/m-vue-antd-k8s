@@ -1,5 +1,11 @@
 <template>
-  <codemirror ref="myCm" v-model="code" :options="cmOptions"  class="code"></codemirror>
+  <codemirror ref="myCm"
+              :value="code"
+              :options="cmOptions"
+              @ready="onCmReady"
+              @focus="onCmFocus"
+              @input="onCmCodeChange">
+  </codemirror>
 </template>
 
 <script>
@@ -14,11 +20,11 @@ export default {
   components: {
     codemirror
   },
+  props: { myCode: String },
   name: "KCodemirror",
-  props: ['mycode'],
   data () {
     return {
-      code: this.mycode,
+      code : "",
       cmOptions: {
         tabSize: 4,
         mode: 'text/x-python',
@@ -37,7 +43,19 @@ export default {
     },
     onCmCodeChange(newCode) {
       console.log('this is new code', newCode)
-      this.code = newCode
+      // 变更code值, 向上传事件codeByValue
+      this.$emit('codeByValue', newCode)
+    }
+  },
+  watch: {
+    // 监听pro.myCode 父级的变化, 然后赋值
+    myCode: {
+      handler (val) {
+        console.log('watch father mycode', val)
+        this.code = val
+      },
+      deep: true // 需要监听的数据的深度
+      // immediate: true,
     }
   },
   computed: {
