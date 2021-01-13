@@ -18,6 +18,7 @@
 
 <script>
 import KCodemirror from '@/components/input/Codemirror'
+import {request, METHOD} from '@/utils/request'
 
 export default {
   components: {
@@ -36,9 +37,11 @@ export default {
   },
   methods: {
     changeMyYaml: function () {
-      this.code2 = this.code1
+      //this.code2 = this.code1
       console.log('father is readied!', this.code2)
-
+      request("http://" + location.host.split(":")[0] + ":7001/return",
+          METHOD.POST,
+          {'code': this.code1}).then(res => (this.code2 = res.data.toString()))
     },
     getSonCode: function (childV) {
       this.code1 = childV
