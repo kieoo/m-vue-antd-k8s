@@ -28,6 +28,7 @@
     "nprogress": "^0.2.0",
     "viser-vue": "^2.4.8",
     "vue": "^2.6.11",
+    "vue-code-diff": "0.0.5",
     "vue-codemirror": "^4.0.6",
     "vue-i18n": "^8.18.2",
     "vue-router": "^3.3.4",

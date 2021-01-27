@@ -73,6 +73,11 @@ const options = {
               component: () => import('@/pages/form/k8sYamlCheck'),
             },
             {
+              path: 'k8s2',
+              name: 'k8sYamlCheck2',
+              component: () => import('@/pages/form/k8sYamlCheck2'),
+            },
+            {
               path: 'step',
               name: '分步表单',
               component: () => import('@/pages/form/step'),
