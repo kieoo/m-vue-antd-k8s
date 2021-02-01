@@ -15,7 +15,7 @@ import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-dark.css'
 import 'codemirror/mode/javascript/javascript.js'
-import 'codemirror/mode/python/python.js'
+import 'codemirror/mode/yaml/yaml.js'
 
 export default {
   components: {
@@ -33,7 +33,7 @@ export default {
     return {
       cmOptions: {
         tabSize: 4,
-        mode: 'text/x-python',
+        mode: 'text/x-yaml',
         theme: 'base16-dark',
         lineNumbers: true,
         line: true,
