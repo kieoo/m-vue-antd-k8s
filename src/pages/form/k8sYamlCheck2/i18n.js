@@ -1,7 +1,7 @@
 module.exports = {
   messages: {
     CN: {
-      pageDesc: '在ide输入原始yaml, 提交后进行自动检查',
+      pageDesc: '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。',
       title: '标题',
       submit: '提交',
       save: '保存',

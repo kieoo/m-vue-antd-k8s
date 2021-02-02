@@ -14,8 +14,22 @@
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-dark.css'
-import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror/mode/yaml/yaml.js'
+
+//代码折叠文件
+require('codemirror/addon/fold/foldcode.js')
+require('codemirror/addon/fold/foldgutter.js')
+require('codemirror/addon/edit/matchbrackets.js')
+require('codemirror/addon/fold/brace-fold.js')
+//选中行高亮文件
+require('codemirror/addon/selection/active-line.js')
+//缩进文件
+require('codemirror/addon/fold/indent-fold.js')
+//代码只能提示
+require('codemirror/addon/hint/show-hint.js')
+require('codemirror/addon/hint/anyword-hint.js')
+//addon文件夹放的是Code Mirror的功能插件
+require('codemirror/addon/fold/comment-fold.js')
 
 export default {
   components: {
@@ -37,6 +51,16 @@ export default {
         theme: 'base16-dark',
         lineNumbers: true,
         line: true,
+        extraKeys: { // 触发按键
+          'Ctrl': 'autocomplete'
+        },
+        hintOptions: {tables: {
+            users: ["name", "score", "birthDate"],
+            countries: ["name", "population", "size"]
+          }},
+        highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true },
+        smartIndent: true, // 自动缩进
+        lineWrapping: true, //代码折叠
       }
     }
   },
