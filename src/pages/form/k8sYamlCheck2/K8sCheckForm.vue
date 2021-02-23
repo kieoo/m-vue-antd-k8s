@@ -1,8 +1,19 @@
 <template>
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form>
+      <a-form-item>
+        <a-upload-dragger
+          name="file"
+          :multiple="true"
+          :fileList="downloadFiles"
+          :remove="handleDownloadFileRemove"
+          :customRequest="downloadFilesCustomRequest"
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+        </a-upload-dragger>
+      </a-form-item>
       <a-row class="form-row" :gutter="5">
         <a-col :lg="12" :md="12" :sm="24">
+          <k-codemirror v-model="code1" class="codemirror"></k-codemirror>
         </a-col>
         <a-col :xl="{span: 12}" :lg="{span: 12}" :md="{span: 12}" :sm="24">
           <a-collapse  accordion :v-show="checkKey==null || checkKey.length>0">
@@ -21,13 +32,19 @@
 </template>
 
 <script>
+import KCodemirror from '@/components/input/Codemirror'
 import {request, METHOD} from '@/utils/request'
 
 export default {
-  name: 'k8sCheck2',
+  components: {
+    KCodemirror,
+  },
+  name: 'k8sCheck',
   i18n: require('./i18n'),
   data () {
     return {
+      form: this.$form.createForm(this),
+      downloadFiles: [],
       value: 1,
       myOriCode: "",
       k8sCheckCode: "",
@@ -36,6 +53,37 @@ export default {
     }
   },
   methods: {
+    downloadFilesCustomRequest(data) {
+      this.saveFile(data)
+    },
+    saveFile (data) {
+      const formData = new FormData()
+      formData.append('file', data.file)
+      request("http://" + location.host.split(":")[0] + ":7002/khelm-file",
+        METHOD.POST, formData).then(res => {
+          if (res.code === 0) {
+            let file = this.fileFormatter(res.data)
+            this.downloadFiles.push(file)
+          } else {
+            this.$message.error(res.msg)
+          }
+      })
+    },
+    fileFormatter(data) {
+      let myfile = {
+        uid: data.uuid,    // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
+        name: data.name,   // 文件名
+        status: 'done', // 状态有：uploading done error removed
+        response: '{"status": "success"}', // 服务端响应内容
+      }
+      return myfile
+    },
+    handleDownloadFileRemove (file) {
+      const index = this.downloadFiles.indexOf(file)
+      const newFileList = this.downloadFiles.slice()
+      newFileList.splice(index, 1)
+      this.downloadFiles = newFileList
+    },
     changeMyYaml: function () {
       //this.code2 = this.code1
       console.log('father is readied!', this.code1)
