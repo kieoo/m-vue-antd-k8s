@@ -34,8 +34,6 @@ export default {
   data () {
     return {
       value: 1,
-      myOriCode: "",
-      k8sCheckCode: "",
       code1: "",
       checkKey: []
     }
@@ -44,13 +42,10 @@ export default {
     changeMyYaml: function () {
       //this.code2 = this.code1
       console.log('father is readied!', this.code1)
-      request("http://" + location.host.split(":")[0] + ":7002/kcheck",
+      request("http://" + location.host.split(":")[0] + ":7001/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'my_rules.yaml', 'rule_name': 'normal'})
           .then(res => (this.checkKey = res.data))
-    },
-    getSonCode: function (childV) {
-      this.code1 = childV
     },
     changeActiveKey(key) {
       console.log(key)

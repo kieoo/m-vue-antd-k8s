@@ -7,8 +7,7 @@
           :multiple="true"
           :fileList="downloadFiles"
           :remove="handleDownloadFileRemove"
-          :customRequest="downloadFilesCustomRequest"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+          :customRequest="downloadFilesCustomRequest">
           <p class="ant-upload-drag-icon">
             <a-icon type="inbox" />
           </p>
@@ -20,6 +19,9 @@
             band files
           </p>
         </a-upload-dragger>
+        <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">
+          Helm Change
+        </a-button>
       </a-form-item>
       <a-row class="form-row" :gutter="5">
         <a-col :lg="12" :md="12" :sm="24">
@@ -54,56 +56,73 @@ export default {
   data () {
     return {
       form: this.$form.createForm(this),
+      formData: new FormData(),
       downloadFiles: [],
       value: 1,
-      myOriCode: "",
-      k8sCheckCode: "",
       code1: "",
-      checkKey: []
+      checkKey: [],
+      iconLoading: false
     }
   },
   methods: {
     downloadFilesCustomRequest(data) {
       this.saveFile(data)
+      console.log(this.downloadFiles )
     },
     saveFile (data) {
-      const formData = new FormData()
-      formData.append('file', data.file)
-      request("http://" + location.host.split(":")[0] + ":7002/khelm-file",
-        METHOD.POST, formData).then(res => {
-          if (res.code === 0) {
-            let file = this.fileFormatter(res.data)
-            this.downloadFiles.push(file)
-          } else {
-            this.$message.error(res.msg)
-          }
-      })
+      // push message to download list
+      let file = this.fileFormatter(data)
+      this.downloadFiles.push(file)
+
     },
     fileFormatter(data) {
-      let myfile = {
-        uid: data.uuid,    // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
-        name: data.name,   // 文件名
+      return {
+        uid: Math.ceil(Math.random()*1000),    // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
+        name: data.file.name,   // 文件名
         status: 'done', // 状态有：uploading done error removed
-        response: '{"status": "success"}', // 服务端响应内容
+        up_file: data.file
       }
-      return myfile
     },
-    handleDownloadFileRemove (file) {
+    handleDownloadFileRemove(file) {
       const index = this.downloadFiles.indexOf(file)
       const newFileList = this.downloadFiles.slice()
       newFileList.splice(index, 1)
       this.downloadFiles = newFileList
+
+      console.log(this.downloadFiles )
+    },
+    async commitHelm() {
+      this.iconLoading = true
+      // let config = {
+      //   headers :{
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // }
+      this.formData.delete('files')
+      for ( const up of this.downloadFiles) {
+         this.formData.append('files', up.up_file)
+      }
+      // console.log(this.formData)
+      await request("http://" + location.host.split(":")[0] + ":7001/upload",
+          METHOD.POST, this.formData).then(res => {
+            this.code1 = res.data.msg
+      }).catch( error => {
+        if (error.response) {
+          this.$message.error("Change Failed - " + error.response.data.msg)
+        } else {
+          this.$message.error("Change Failed")
+        }
+      })
+      console.log(this.code1)
+      this.iconLoading = false
     },
     changeMyYaml: function () {
       //this.code2 = this.code1
       console.log('father is readied!', this.code1)
-      request("http://" + location.host.split(":")[0] + ":7002/kcheck",
+      request("http://" + location.host.split(":")[0] + ":7001/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'my_rules.yaml', 'rule_name': 'normal'})
-          .then(res => (this.checkKey = res.data))
-    },
-    getSonCode: function (childV) {
-      this.code1 = childV
+          .then(res => (this.checkKey = res.data)).catch(() => ( this.$message.error( "Check Failed") ))
     },
     changeActiveKey(key) {
       console.log(key)

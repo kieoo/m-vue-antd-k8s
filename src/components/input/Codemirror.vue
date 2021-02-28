@@ -65,11 +65,11 @@ export default {
     }
   },
   methods: {
-    onCmReady(cm) {
-      console.log('the editor is readied!', cm)
+    onCmReady() {
+      console.log('the editor is readied!')
     },
-    onCmFocus(cm) {
-      console.log('the editor is focus!', cm)
+    onCmFocus() {
+      console.log('the editor is focus!')
     },
     onCmCodeChange(newCode) {
       console.log('this is new code', newCode)
@@ -94,7 +94,7 @@ export default {
     }
   },
   mounted() {
-    console.log('this is current codemirror object', this.codemirror)
+    console.log('this is current codemirror object')
     // you can use this.codemirror to do something...
   }
 }
