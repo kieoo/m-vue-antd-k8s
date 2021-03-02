@@ -1,7 +1,7 @@
 module.exports = {
   messages: {
     CN: {
-      pageDesc: '在ide输入原始yaml, 提交后进行自动检查',
+      pageDesc: '在IDEA输入原始yaml, 提交后进行自动检查',
       title: '标题',
       submit: '提交',
       save: '保存',

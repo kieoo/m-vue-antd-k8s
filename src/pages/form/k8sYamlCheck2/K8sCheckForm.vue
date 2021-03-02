@@ -12,11 +12,10 @@
             <a-icon type="inbox" />
           </p>
           <p class="ant-upload-text">
-            Click or drag file to this area to upload
+            {{$t('uploadTitle')}}
           </p>
           <p class="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-            band files
+            {{$t('uploadContext')}}
           </p>
         </a-upload-dragger>
         <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">

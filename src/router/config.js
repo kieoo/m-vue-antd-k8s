@@ -24,7 +24,7 @@ const options = {
       path: '/',
       name: '首页',
       component: TabsView,
-      redirect: 'form/k8s',
+      redirect: 'k8sTools/k8sYamlCheck',
       children: [
         // {
         //   path: 'dashboard',
@@ -52,8 +52,8 @@ const options = {
         //   ]
         // },
         {
-          path: 'form',
-          name: '表单页',
+          path: 'k8sTools',
+          name: 'k8s工具',
           meta: {
             icon: 'form',
             page: {
@@ -68,12 +68,12 @@ const options = {
               component: () => import('@/pages/form/basic'),
             },
             {
-              path: 'k8s',
+              path: 'k8sYamlCheck',
               name: 'k8sYamlCheck',
               component: () => import('@/pages/form/k8sYamlCheck'),
             },
             {
-              path: 'k8s2',
+              path: 'k8sHelmCheck',
               name: 'k8sHelmCheck',
               component: () => import('@/pages/form/k8sYamlCheck2'),
             },

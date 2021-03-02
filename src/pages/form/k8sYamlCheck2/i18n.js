@@ -1,10 +1,12 @@
 module.exports = {
   messages: {
     CN: {
-      pageDesc: '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。',
+      pageDesc: '对kubernetes编排文件进行检查,在IDEA输入原始yaml, 提交后进行自动检查',
       title: '标题',
-      submit: '提交',
+      submit: '提交检查',
       save: '保存',
+      uploadTitle: '点击或拖拽chart文件上传进行解析',
+      uploadContext: '支持多文件上传, chart解析需要template, _helpers.tpl, Chart, values四个文件'
     },
     HK: {
       pageDesc: '表單頁用於向用戶收集或驗證信息，基礎表單常見於數據項較少的表單場景。',
@@ -13,10 +15,13 @@ module.exports = {
       save: '保存',
     },
     US: {
-      pageDesc: 'Form pages are used to collect or verify information to users, and basic forms are common in scenarios where there are fewer data items.',
+      pageDesc: 'Check the kubernetes layout file, enter the original yaml in IDEA, and automatically check after submission.',
       title: 'Title',
       submit: 'submit',
       save: 'save',
+      uploadTitle: 'Click or drag chart file to this area to upload',
+      uploadContext: '\n' +
+          'Supports multiple file uploads, chart parsing requires four files: template, _helpers.tpl, Chart, and values.'
     }
   }
 }
