@@ -6,7 +6,8 @@ module.exports = {
       submit: '提交检查',
       save: '保存',
       uploadTitle: '点击或拖拽chart文件上传进行解析',
-      uploadContext: '支持多文件上传, chart解析需要template, _helpers.tpl, Chart, values四个文件'
+      uploadContext: '支持多文件上传,zip包上传, chart解析需要template, _helpers.tpl, Chart, values四个文件,' +
+          '\n或点击下方进行文件夹上传',
     },
     HK: {
       pageDesc: '表單頁用於向用戶收集或驗證信息，基礎表單常見於數據項較少的表單場景。',
@@ -21,7 +22,7 @@ module.exports = {
       save: 'save',
       uploadTitle: 'Click or drag chart file to this area to upload',
       uploadContext: '\n' +
-          'Supports multiple file uploads, chart parsing requires four files: template, _helpers.tpl, Chart, and values.'
+          'Supports multiple file uploads, chart parsing requires four files: template, _helpers.tpl, Chart, and values or zip package.'
     }
   }
 }

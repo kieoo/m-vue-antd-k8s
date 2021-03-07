@@ -2,22 +2,30 @@
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form>
       <a-form-item>
-        <a-upload-dragger
-          name="file"
-          :multiple="true"
-          :fileList="downloadFiles"
-          :remove="handleDownloadFileRemove"
-          :customRequest="downloadFilesCustomRequest">
+        <a-upload-dragger name="file"
+                          :multiple="true"
+                          :fileList="downloadFiles"
+                          :showUploadList="false"
+                          :remove="handleDownloadFileRemove"
+                          :customRequest="downloadFilesCustomRequest">
           <p class="ant-upload-drag-icon">
-            <a-icon type="inbox" />
+            <a-icon type="copy" />
           </p>
           <p class="ant-upload-text">
             {{$t('uploadTitle')}}
           </p>
           <p class="ant-upload-hint">
-            {{$t('uploadContext')}}
+            <span v-bind:style="{'white-space':'pre-wrap'}">{{$t('uploadContext')}}</span>
           </p>
         </a-upload-dragger>
+        <a-upload  directory
+                   name="file"
+                   :multiple="true"
+                   :fileList="downloadFiles"
+                   :remove="handleDownloadFileRemove"
+                   :customRequest="downloadFilesCustomRequest">
+          <a-button> <a-icon type="inbox" /> Upload Chart  Directory </a-button>
+        </a-upload>
         <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">
           Helm Change
         </a-button>
@@ -104,7 +112,7 @@ export default {
       // console.log(this.formData)
       await request("http://" + location.host.split(":")[0] + ":7001/upload",
           METHOD.POST, this.formData).then(res => {
-            this.code1 = res.data.msg
+            this.code1 = res.data.chart
       }).catch( error => {
         if (error.response) {
           this.$message.error("Change Failed - " + error.response.data.msg)
@@ -121,7 +129,13 @@ export default {
       request("http://" + location.host.split(":")[0] + ":7001/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'my_rules.yaml', 'rule_name': 'normal'})
-          .then(res => (this.checkKey = res.data)).catch(() => ( this.$message.error( "Check Failed") ))
+          .then(res => (this.checkKey = res.data.hints)).catch( error => {
+        if (error.response) {
+          this.$message.error("Change Failed - " + error.response.data.msg)
+        } else {
+          this.$message.error("Change Failed")
+        }
+      })
     },
     changeActiveKey(key) {
       console.log(key)
