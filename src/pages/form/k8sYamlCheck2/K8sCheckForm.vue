@@ -37,7 +37,8 @@
         <a-col :xl="{span: 12}" :lg="{span: 12}" :md="{span: 12}" :sm="24">
           <a-collapse  accordion :v-show="checkKey==null || checkKey.length>0">
             <a-collapse-panel v-for="(item, index) in checkKey" :key="index"
-                              :header="item.check_name" style="background-color:indianred">
+                              :header="item.check_name"
+                              :style="{'background-color': (item.hints.length>0 ? 'indianred' : 'limegreen')}">
               <div class="text-wrapper">{{ item.hints }}</div>
             </a-collapse-panel>
           </a-collapse>
@@ -128,7 +129,7 @@ export default {
       console.log('father is readied!', this.code1)
       request("http://" + location.host.split(":")[0] + ":7001/kcheck",
           METHOD.POST,
-          {'ori_yaml': this.code1, 'rule_config':'my_rules.yaml', 'rule_name': 'normal'})
+          {'ori_yaml': this.code1, 'rule_config':'default.yaml', 'rule_name': 'deployment'})
           .then(res => (this.checkKey = res.data.hints)).catch( error => {
         if (error.response) {
           this.$message.error("Change Failed - " + error.response.data.msg)
