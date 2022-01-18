@@ -5,11 +5,11 @@ import PageView from '@/layouts/PageView'
 // 路由配置
 const options = {
   routes: [
-    {
-      path: '/login',
-      name: '登录页',
-      component: () => import('@/pages/login')
-    },
+    // {
+    //   path: '/login',
+    //   name: '登录页',
+    //   component: () => import('@/pages/login')
+    // },
     {
       path: '*',
       name: '404',
@@ -62,11 +62,11 @@ const options = {
           },
           component: PageView,
           children: [
-            {
-              path: 'basic',
-              name: '基础表单',
-              component: () => import('@/pages/form/basic'),
-            },
+            // {
+            //   path: 'basic',
+            //   name: '基础表单',
+            //   component: () => import('@/pages/form/basic'),
+            // },
             {
               path: 'k8sYamlCheck',
               name: 'k8sYamlCheck',
@@ -77,16 +77,16 @@ const options = {
               name: 'k8sHelmCheck',
               component: () => import('@/pages/form/k8sYamlCheck2'),
             },
-            {
-              path: 'step',
-              name: '分步表单',
-              component: () => import('@/pages/form/step'),
-            },
-            {
-              path: 'advance',
-              name: '高级表单',
-              component: () => import('@/pages/form/advance'),
-            }
+            // {
+            //   path: 'step',
+            //   name: '分步表单',
+            //   component: () => import('@/pages/form/step'),
+            // },
+            // {
+            //   path: 'advance',
+            //   name: '高级表单',
+            //   component: () => import('@/pages/form/advance'),
+            // }
           ]
         },
         // {
@@ -240,22 +240,22 @@ const options = {
         //   },
         //   component: () => import('@/pages/form/basic')
         // },
-        {
-          name: 'Ant Design Vue',
-          path: 'antdv',
-          meta: {
-            icon: 'ant-design',
-            link: 'https://www.antdv.com/docs/vue/introduce-cn/'
-          }
-        },
-        {
-          name: '使用文档',
-          path: 'document',
-          meta: {
-            icon: 'file-word',
-            link: 'https://iczer.gitee.io/vue-antd-admin-docs/'
-          }
-        }
+        // {
+        //   name: 'Ant Design Vue',
+        //   path: 'antdv',
+        //   meta: {
+        //     icon: 'ant-design',
+        //     link: 'https://www.antdv.com/docs/vue/introduce-cn/'
+        //   }
+        // },
+        // {
+        //   name: '使用文档',
+        //   path: 'document',
+        //   meta: {
+        //     icon: 'file-word',
+        //     link: 'https://iczer.gitee.io/vue-antd-admin-docs/'
+        //   }
+        // }
       ]
     },
   ]

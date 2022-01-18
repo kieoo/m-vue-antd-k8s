@@ -35,9 +35,9 @@
           <k-codemirror v-model="code1" class="codemirror"></k-codemirror>
         </a-col>
         <a-col :xl="{span: 12}" :lg="{span: 12}" :md="{span: 12}" :sm="24">
-          <a-collapse  accordion :v-show="checkKey==null || checkKey.length>0">
+          <a-collapse  accordion :v-if="checkKey!=null && checkKey.length>0">
             <a-collapse-panel v-for="(item, index) in checkKey" :key="index"
-                              :header="item.check_name"
+                              :header= item.check_name
                               :style="{'background-color': (item.hints.length>0 ? 'indianred' : 'limegreen')}">
               <div class="text-wrapper">{{ item.hints }}</div>
             </a-collapse-panel>

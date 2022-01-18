@@ -6,9 +6,10 @@
           <k-codemirror v-model="code1" class="codemirror"></k-codemirror>
         </a-col>
         <a-col :xl="{span: 12}" :lg="{span: 12}" :md="{span: 12}" :sm="24">
-          <a-collapse  accordion :v-show="checkKey==null || checkKey.length>0">
+          <a-collapse  accordion :v-if="checkKey!=null && checkKey.length>0">
             <a-collapse-panel v-for="(item, index) in checkKey" :key="index"
-                              :header="item.check_name" style="background-color:indianred">
+                              :header="item.check_name"
+                              style="background-color:indianred">
               <div class="text-wrapper">{{ item.hints }}</div>
             </a-collapse-panel>
           </a-collapse>
@@ -45,7 +46,7 @@ export default {
       request("http://" + location.host.split(":")[0] + ":7001/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'my_rules.yaml', 'rule_name': 'normal'})
-          .then(res => (this.checkKey = res.data))
+          .then(res => (this.checkKey = res.data.hints))
     },
     changeActiveKey(key) {
       console.log(key)
