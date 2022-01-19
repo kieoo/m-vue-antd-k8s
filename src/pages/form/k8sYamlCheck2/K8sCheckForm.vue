@@ -68,8 +68,10 @@ export default {
       downloadFiles: [],
       value: 1,
       code1: "",
+      checkBody: {},
       checkKey: [],
-      iconLoading: false
+      checkResult: "",
+      iconLoading: false,
     }
   },
   methods: {
@@ -130,13 +132,17 @@ export default {
       request("http://" + location.host.split(":")[0] + ":7001/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'default.yaml', 'rule_name': 'deployment'})
-          .then(res => (this.checkKey = res.data.hints)).catch( error => {
-        if (error.response) {
-          this.$message.error("Change Failed - " + error.response.data.msg)
-        } else {
-          this.$message.error("Change Failed")
-        }
-      })
+          .then(res => {
+            this.checkBody = res.data
+            this.checkKey = res.data.hints
+          }).catch( error => {
+            if (error.response) {
+              this.$message.error("Change Failed - " + error.response.data.msg)
+            } else {
+              this.$message.error("Change Failed")
+            }
+          })
+      console.log('father is readied!', this.checkBody)
     },
     changeActiveKey(key) {
       console.log(key)
