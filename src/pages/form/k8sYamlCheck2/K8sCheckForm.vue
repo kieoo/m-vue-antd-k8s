@@ -113,7 +113,7 @@ export default {
          this.formData.append('files', up.up_file)
       }
       // console.log(this.formData)
-      await request("http://" + location.host.split(":")[0] + ":7001/kc/upload",
+      await request("http://" + location.host.split(":")[0] + "/kc/upload",
           METHOD.POST, this.formData).then(res => {
             this.code1 = res.data.chart
       }).catch( error => {
@@ -129,7 +129,7 @@ export default {
     changeMyYaml: function () {
       //this.code2 = this.code1
       console.log('father is readied!', this.code1)
-      request("http://" + location.host.split(":")[0] + ":7001/kc/kcheck",
+      request("http://" + location.host.split(":")[0] + "/kc/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'default.yaml', 'rule_name': 'deployment'})
           .then(res => {
