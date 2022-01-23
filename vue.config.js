@@ -110,7 +110,7 @@ module.exports = {
       }
     }
   },
-  publicPath: isProd ? '/vue-antd-admin/' : '/',
+  publicPath: isProd ? '/just-test/' : '/',
   outputDir: 'dist',
   assetsDir: 'static',
   productionSourceMap: false

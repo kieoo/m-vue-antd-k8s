@@ -38,7 +38,7 @@
           <a-collapse  accordion :v-if="checkKey!=null && checkKey.length>0">
             <a-collapse-panel v-for="(item, index) in checkKey" :key="index"
                               :header= item.check_name
-                              :style="{'background-color': (item.hints.length>0 ? 'indianred' : 'limegreen')}">
+                              :style="{'background-color': collapseColor(item.level)}">
               <div class="text-wrapper">{{ item.hints }}</div>
             </a-collapse-panel>
           </a-collapse>
@@ -113,7 +113,7 @@ export default {
          this.formData.append('files', up.up_file)
       }
       // console.log(this.formData)
-      await request("http://" + location.host.split(":")[0] + ":7001/upload",
+      await request("http://" + location.host.split(":")[0] + ":7001/kc/upload",
           METHOD.POST, this.formData).then(res => {
             this.code1 = res.data.chart
       }).catch( error => {
@@ -129,7 +129,7 @@ export default {
     changeMyYaml: function () {
       //this.code2 = this.code1
       console.log('father is readied!', this.code1)
-      request("http://" + location.host.split(":")[0] + ":7001/kcheck",
+      request("http://" + location.host.split(":")[0] + ":7001/kc/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'default.yaml', 'rule_name': 'deployment'})
           .then(res => {
@@ -146,6 +146,17 @@ export default {
     },
     changeActiveKey(key) {
       console.log(key)
+    },
+    collapseColor(level) {
+      if (level === 2) {
+        return "indianred"
+      }
+      if (level === 1) {
+        return "khaki"
+      }
+      if (level === 0) {
+        return "limegreen"
+      }
     }
   },
   computed: {
@@ -172,6 +183,6 @@ export default {
 }
 
 .codemirror /deep/ .CodeMirror {
-  height: 500px;
+  height: 600px;
 }
 </style>

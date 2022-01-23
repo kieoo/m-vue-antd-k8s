@@ -1,7 +1,7 @@
 module.exports = {
   messages: {
     CN: {
-      pageDesc: '对kubernetes编排文件进行检查,在IDEA输入原始yaml, 提交后进行自动检查',
+      pageDesc: '在IDE输入原始yaml,或上传chart后点击Helm Change,转为yaml',
       title: '标题',
       submit: '提交检查',
       save: '保存',
