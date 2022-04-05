@@ -77,6 +77,11 @@ const options = {
               name: 'k8sYaml&HelmCheck',
               component: () => import('@/pages/form/k8sYamlCheck2'),
             },
+            {
+              path: 'k8sExec',
+              name: 'k8sExec',
+              component: () => import('@/pages/form/k8sExec'),
+            },
             // {
             //   path: 'step',
             //   name: '分步表单',

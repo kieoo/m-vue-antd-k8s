@@ -1,8 +1,7 @@
 // 自定义配置，参考 ./default/setting.config.js，需要自定义的属性在这里配置即可
-// 自定义配置，参考 ./default/setting.config.js，需要自定义的属性在这里配置即可
 module.exports = {
   theme: {
-    color: '#13c2c2',
+    color: '#3eaf7c',
     mode: 'dark',
     success: '#52c41a',
     warning: '#faad14',
@@ -10,11 +9,9 @@ module.exports = {
   },
   layout: 'head',
   pageWidth: 'fluid',
-  multiPage: true,
   animate: {
-    disabled: false,
+    disabled: true,
     name: 'lightSpeed',
     direction: 'left'
   }
 }
-

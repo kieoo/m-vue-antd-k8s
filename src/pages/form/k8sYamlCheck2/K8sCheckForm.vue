@@ -2,22 +2,22 @@
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form>
       <a-form-item>
-        <a-upload-dragger name="file"
-                          :multiple="true"
-                          :fileList="downloadFiles"
-                          :showUploadList="false"
-                          :remove="handleDownloadFileRemove"
-                          :customRequest="downloadFilesCustomRequest">
-          <p class="ant-upload-drag-icon">
-            <a-icon type="copy" />
-          </p>
-          <p class="ant-upload-text">
-            {{$t('uploadTitle')}}
-          </p>
-          <p class="ant-upload-hint">
-            <span v-bind:style="{'white-space':'pre-wrap'}">{{$t('uploadContext')}}</span>
-          </p>
-        </a-upload-dragger>
+<!--        <a-upload-dragger name="file"-->
+<!--                          :multiple="true"-->
+<!--                          :fileList="downloadFiles"-->
+<!--                          :showUploadList="false"-->
+<!--                          :remove="handleDownloadFileRemove"-->
+<!--                          :customRequest="downloadFilesCustomRequest">-->
+<!--          <p class="ant-upload-drag-icon">-->
+<!--            <a-icon type="copy" />-->
+<!--          </p>-->
+<!--          <p class="ant-upload-text">-->
+<!--            {{$t('uploadTitle')}}-->
+<!--          </p>-->
+<!--          <p class="ant-upload-hint">-->
+<!--            <span v-bind:style="{'white-space':'pre-wrap'}">{{$t('uploadContext')}}</span>-->
+<!--          </p>-->
+<!--        </a-upload-dragger>-->
         <a-upload  directory
                    name="file"
                    :multiple="true"
@@ -26,9 +26,16 @@
                    :customRequest="downloadFilesCustomRequest">
           <a-button> <a-icon type="inbox" /> Upload Chart  Directory </a-button>
         </a-upload>
-        <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">
-          Helm Change
-        </a-button>
+        <a-row class="form-row" :gutter="5">
+          <a-col :lg="12" :md="12" :sm="24">
+            <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">
+              Helm Change
+            </a-button>
+          </a-col>
+          <a-col :lg="12" :md="12" :sm="24">
+            <a-button type="primary" @click="changeMyYaml()">{{$t('submit')}}</a-button>
+          </a-col>
+        </a-row>
       </a-form-item>
       <a-row class="form-row" :gutter="5">
         <a-col :lg="12" :md="12" :sm="24">
@@ -44,9 +51,6 @@
           </a-collapse>
         </a-col>
       </a-row>
-      <a-form-item>
-        <a-button type="primary" block @click="changeMyYaml()">{{$t('submit')}}</a-button>
-      </a-form-item>
     </a-form>
   </a-card>
 </template>
