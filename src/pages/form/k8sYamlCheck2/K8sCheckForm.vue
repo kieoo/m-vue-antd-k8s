@@ -27,11 +27,11 @@
           <a-button> <a-icon type="inbox" /> Upload Chart  Directory </a-button>
         </a-upload>
         <a-row class="form-row" :gutter="5">
-          <a-col :lg="12" :md="12" :sm="24">
-            <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">
-              Helm Change
-            </a-button>
-          </a-col>
+<!--          <a-col :lg="12" :md="12" :sm="24">-->
+<!--            <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">-->
+<!--              Helm Change-->
+<!--            </a-button>-->
+<!--          </a-col>-->
           <a-col :lg="12" :md="12" :sm="24">
             <a-button type="primary" @click="changeMyYaml()">{{$t('submit')}}</a-button>
           </a-col>
@@ -82,6 +82,7 @@ export default {
     downloadFilesCustomRequest(data) {
       this.saveFile(data)
       console.log(this.downloadFiles )
+      this.commitHelm()
     },
     saveFile (data) {
       // push message to download list

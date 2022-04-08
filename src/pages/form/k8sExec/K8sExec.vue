@@ -26,7 +26,7 @@
               @search="uploadKubeConf"
           />
         </a-space>
-          <a-collapse v-model="activeKey">
+          <a-collapse v-model="activeKey" v-if="kubeconfigYaml.length>0">
             <a-collapse-panel  key="1" header="kubeconfig 解析结果">
               <p class="text-wrapper" style="font-size: 10px">{{kubeconfigYaml}}</p>
             </a-collapse-panel>
@@ -36,6 +36,7 @@
         <a-select
             mode="multiple"
             placeholder="please select exec cluster"
+            @change="handleClusterChange"
         >
 <!--          <a-select-option v-for="i in formData.get('clusters')" :key="i">-->
 <!--            {{ formData.get('clusters')[i] }}-->
@@ -47,6 +48,7 @@
       </a-form-model-item>
       <a-form-model-item label="Namespaces/Owners">
         <a-select v-model="form.ns_own" placeholder="please select exec namespace and owner">
+
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="Containers">
@@ -97,7 +99,11 @@ export default {
       kubeconfigYamlBase64: "",
       activeKey: [],
       clusterList: [],
+      nsAndOwnerList:[],
       podList: [],
+      containers: [],
+      selectnsAndOwnerList:[],
+      selectcontainers:[],
       value: 1,
       code1: "",
       checkBody: {},
@@ -152,8 +158,8 @@ export default {
       // console.log(this.formData)
       await request("http://" + location.host.split(":")[0] + ":7001/ksiable/upKubeconfs",
           METHOD.POST, this.formData).then(res => {
-            this.kubeconfigYaml = res.data.kube_config_yaml
-            this.kubeconfigYamlBase64 = res.data.kube_config_yaml_base64
+            this.kubeconfigYaml = res.data['kube_config_yaml']
+            this.kubeconfigYamlBase64 = res.data['kube_config_yaml_base64']
             Cookie.set("kube_config_yaml_base64", this.kubeconfigYamlBase64, {expires: 1})
             this.podList = res.data.plist
       }).catch( error => {
@@ -166,15 +172,28 @@ export default {
       console.log(this.podList)
       this.searchLoading = false
       this.activeKey = ['1']
-
       this.updateInfo(this.podList)
     },
 
     updateInfo: function (podList) {
       this.clusterList = []
-      for (const podinfo of podList) {
-        this.clusterList.append(podinfo.cluster)
+      this.nsAndOwnerList = []
+      this.containers = []
+      for ( const p of podList) {
+        this.clusterList.push(p['context'] + '/' + p['cluster'])
+        for ( const podInfo of p['pods']) {
+          this.nsAndOwnerList.push( p['context'] + '/' + p['cluster'] + '/' + podInfo['namespace'] + '/' + podInfo['owner'])
+          for (const container of podInfo['containers']) {
+            this.containers.push( p['context'] + '/' + p['cluster'] + '/' + podInfo['namespace'] + '/' + podInfo['owner'] + '/' + container)
+          }
+        }
       }
+    },
+    handleClusterChange: function (value) {
+      this.formData.containers= []
+      this.selectnsAndOwnerList = []
+      for
+
     },
     changeMyYaml: function () {
       //this.code2 = this.code1
@@ -193,9 +212,6 @@ export default {
             }
           })
       console.log('father is readied!', this.checkBody)
-    },
-    changeActiveKey(key) {
-      console.log(key)
     },
     collapseColor(level) {
       if (level === 2) {
