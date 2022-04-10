@@ -1,67 +1,73 @@
 <template>
-  <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
-    <a-form>
-      <a-form-item>
-<!--        <a-upload-dragger name="file"-->
-<!--                          :multiple="true"-->
-<!--                          :fileList="downloadFiles"-->
-<!--                          :showUploadList="false"-->
-<!--                          :remove="handleDownloadFileRemove"-->
-<!--                          :customRequest="downloadFilesCustomRequest">-->
-<!--          <p class="ant-upload-drag-icon">-->
-<!--            <a-icon type="copy" />-->
-<!--          </p>-->
-<!--          <p class="ant-upload-text">-->
-<!--            {{$t('uploadTitle')}}-->
-<!--          </p>-->
-<!--          <p class="ant-upload-hint">-->
-<!--            <span v-bind:style="{'white-space':'pre-wrap'}">{{$t('uploadContext')}}</span>-->
-<!--          </p>-->
-<!--        </a-upload-dragger>-->
-        <a-upload  directory
-                   name="file"
-                   :multiple="true"
-                   :fileList="downloadFiles"
-                   :remove="handleDownloadFileRemove"
-                   :customRequest="downloadFilesCustomRequest">
-          <a-button> <a-icon type="inbox" /> Upload Chart  Directory </a-button>
-        </a-upload>
+  <div>
+    <PageLayout :desc="$t('pageDesc')" ></PageLayout>
+    <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
+      <a-form>
+        <a-form-item>
+  <!--        <a-upload-dragger name="file"-->
+  <!--                          :multiple="true"-->
+  <!--                          :fileList="downloadFiles"-->
+  <!--                          :showUploadList="false"-->
+  <!--                          :remove="handleDownloadFileRemove"-->
+  <!--                          :customRequest="downloadFilesCustomRequest">-->
+  <!--          <p class="ant-upload-drag-icon">-->
+  <!--            <a-icon type="copy" />-->
+  <!--          </p>-->
+  <!--          <p class="ant-upload-text">-->
+  <!--            {{$t('uploadTitle')}}-->
+  <!--          </p>-->
+  <!--          <p class="ant-upload-hint">-->
+  <!--            <span v-bind:style="{'white-space':'pre-wrap'}">{{$t('uploadContext')}}</span>-->
+  <!--          </p>-->
+  <!--        </a-upload-dragger>-->
+          <a-upload  directory
+                     name="file"
+                     :multiple="true"
+                     :fileList="downloadFiles"
+                     :remove="handleDownloadFileRemove"
+                     :customRequest="downloadFilesCustomRequest">
+            <a-button> <a-icon type="inbox" /> Upload Chart  Directory </a-button>
+          </a-upload>
+          <a-row class="form-row" :gutter="5">
+  <!--          <a-col :lg="12" :md="12" :sm="24">-->
+  <!--            <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">-->
+  <!--              Helm Change-->
+  <!--            </a-button>-->
+  <!--          </a-col>-->
+            <a-col :lg="12" :md="12" :sm="24">
+              <a-button type="primary" @click="changeMyYaml()">{{$t('submit')}}</a-button>
+            </a-col>
+          </a-row>
+        </a-form-item>
         <a-row class="form-row" :gutter="5">
-<!--          <a-col :lg="12" :md="12" :sm="24">-->
-<!--            <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="commitHelm">-->
-<!--              Helm Change-->
-<!--            </a-button>-->
-<!--          </a-col>-->
           <a-col :lg="12" :md="12" :sm="24">
-            <a-button type="primary" @click="changeMyYaml()">{{$t('submit')}}</a-button>
+            <k-codemirror v-model="code1" class="codemirror"></k-codemirror>
+          </a-col>
+          <a-col :xl="{span: 12}" :lg="{span: 12}" :md="{span: 12}" :sm="24">
+            <a-collapse  accordion :v-if="checkKey!=null && checkKey.length>0">
+              <a-collapse-panel v-for="(item, index) in checkKey" :key="index"
+                                :header= item.check_name
+                                :style="{'background-color': collapseColor(item.level)}">
+                <div class="text-wrapper">{{ item.hints }}</div>
+              </a-collapse-panel>
+            </a-collapse>
           </a-col>
         </a-row>
-      </a-form-item>
-      <a-row class="form-row" :gutter="5">
-        <a-col :lg="12" :md="12" :sm="24">
-          <k-codemirror v-model="code1" class="codemirror"></k-codemirror>
-        </a-col>
-        <a-col :xl="{span: 12}" :lg="{span: 12}" :md="{span: 12}" :sm="24">
-          <a-collapse  accordion :v-if="checkKey!=null && checkKey.length>0">
-            <a-collapse-panel v-for="(item, index) in checkKey" :key="index"
-                              :header= item.check_name
-                              :style="{'background-color': collapseColor(item.level)}">
-              <div class="text-wrapper">{{ item.hints }}</div>
-            </a-collapse-panel>
-          </a-collapse>
-        </a-col>
-      </a-row>
-    </a-form>
-  </a-card>
+      </a-form>
+    </a-card>
+  </div>
 </template>
 
 <script>
 import KCodemirror from '@/components/input/Codemirror'
+import PageLayout from '@/layouts/PageLayout'
 import {request, METHOD} from '@/utils/request'
+import {KSCHECKER} from '@/services/api'
 
 export default {
   components: {
     KCodemirror,
+    PageLayout
   },
   name: 'k8sCheck',
   i18n: require('./i18n'),
@@ -118,7 +124,7 @@ export default {
          this.formData.append('files', up.up_file)
       }
       // console.log(this.formData)
-      await request("http://" + location.host.split(":")[0] + "/kc/upload",
+      await request(KSCHECKER + "/upload",
           METHOD.POST, this.formData).then(res => {
             this.code1 = res.data.chart
       }).catch( error => {
@@ -134,7 +140,7 @@ export default {
     changeMyYaml: function () {
       //this.code2 = this.code1
       console.log('father is readied!', this.code1)
-      request("http://" + location.host.split(":")[0] + "/kc/kcheck",
+      request(KSCHECKER + "/kcheck",
           METHOD.POST,
           {'ori_yaml': this.code1, 'rule_config':'default.yaml', 'rule_name': 'deployment'})
           .then(res => {
@@ -188,6 +194,7 @@ export default {
 }
 
 .codemirror /deep/ .CodeMirror {
+  font-family: Arial, monospace;
   height: 600px;
 }
 </style>

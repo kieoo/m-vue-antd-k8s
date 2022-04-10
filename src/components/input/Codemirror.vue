@@ -1,5 +1,6 @@
 <template>
-  <codemirror ref="myCm"
+  <codemirror
+              ref="myCm"
               :value="myCode"
               :options="cmOptions"
               @ready="onCmReady"
@@ -14,7 +15,12 @@
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-dark.css'
+import 'codemirror/theme/lesser-dark.css'
+// import 'codemirror/theme/monokai.css'
+
 import 'codemirror/mode/yaml/yaml.js'
+import 'codemirror/mode/shell/shell.js'
+import 'codemirror/mode/javascript/javascript.js'
 
 //代码折叠文件
 require('codemirror/addon/fold/foldcode.js')
@@ -41,28 +47,34 @@ export default {
     prop: 'myCode',
     event: 'input',
   },
-  props: { myCode: String },
-  name: "KCodemirror",
-  data () {
-    return {
-      cmOptions: {
-        tabSize: 4,
-        mode: 'text/x-yaml',
-        theme: 'base16-dark',
-        lineNumbers: true,
-        line: true,
-        extraKeys: { // 触发按键
-          'Ctrl': 'autocomplete'
-        },
-        hintOptions: {tables: {
-            users: ["name", "score", "birthDate"],
-            countries: ["name", "population", "size"]
-          }},
-        highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true },
-        smartIndent: true, // 自动缩进
-        lineWrapping: true, //代码折叠
+  props: {
+    myCode: String,
+    cmOptions: {
+      type:Object,
+      default: function () {
+        return {
+          tabSize: 4,
+          mode: 'text/x-yaml',
+          theme: 'base16-dark',
+          lineNumbers: true,
+          line: true,
+          extraKeys: { // 触发按键
+            'Ctrl': 'autocomplete'
+          },
+          hintOptions: {tables: {
+              users: ["name", "score", "birthDate"],
+              countries: ["name", "population", "size"]
+            }},
+          highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true },
+          smartIndent: true, // 自动缩进
+          lineWrapping: true, //代码折叠
+        }
       }
     }
+  },
+  name: "KCodemirror",
+  data () {
+    return {}
   },
   methods: {
     onCmReady() {
@@ -72,7 +84,7 @@ export default {
       console.log('the editor is focus!')
     },
     onCmCodeChange(newCode) {
-      console.log('this is new code', newCode)
+      // console.log('this is new code', newCode)
       // 变更code值, 向上传event.input事件codeByValue
       this.$emit('input', newCode)
     }

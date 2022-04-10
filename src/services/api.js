@@ -7,4 +7,6 @@ module.exports = {
   ROUTES: `${BASE_URL}/routes`,
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
+  KSIABLE: `${BASE_URL}/ksiable`,
+  KSCHECKER: `${BASE_URL}/kc`,
 }
