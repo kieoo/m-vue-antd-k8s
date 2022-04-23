@@ -10,10 +10,10 @@
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
-        <a-space>
+        <a-space align="start">
           <a-upload  name="file"
                      :multiple="true"
-                     :showUploadList="false"
+                     :showUploadList="showUpList"
                      :fileList="uploadFiles"
                      :remove="handleUpFileRemove"
                      :customRequest="upKubeConfRequest">
@@ -116,6 +116,7 @@ export default {
       page: { desc:"tst",  },
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
+      showUpList: true,
       form: this.$form.createForm(this),
       formData: new FormData(),
       execData: {},
@@ -148,6 +149,7 @@ export default {
   },
   methods: {
     upKubeConfRequest(data) {
+      this.showUpList = true
       this.saveFile(data)
     },
     saveFile (data) {
@@ -203,6 +205,7 @@ export default {
       })
       this.searchLoading = false
       this.updateInfo(this.podList)
+      this.showUpList = false
     },
 
     updateInfo: function (podList) {
