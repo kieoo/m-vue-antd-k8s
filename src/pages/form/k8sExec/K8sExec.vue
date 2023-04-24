@@ -50,7 +50,7 @@
                   placeholder="please select exec namespace and owner"
                   @change="handleNsOwnChange">
           <a-select-option v-for="n in this.selectNsAndOwnerList" :key="n">
-            {{n.split("/")[3]}}
+            {{n.split("/")[n.split("/").length-2]}}/{{n.split("/")[n.split("/").length-1]}}
           </a-select-option>
         </a-select>
       </a-form-model-item>
@@ -59,7 +59,7 @@
                   mode="multiple"
                   placeholder="please select exec container">
           <a-select-option v-for="i in this.selectContainers" :key="i.con">
-            {{i.con.split("/")[3]}}/{{i.con.split("/")[4]}} <span style='color:indianred'>({{i.pod.length}})</span>
+            {{i.con.split("/")[i.con.split("/").length-2]}}/{{i.con.split("/")[i.con.split("/").length-1]}} <span style='color:indianred'>({{i.pod.length}})</span>
           </a-select-option>
         </a-select>
       </a-form-model-item>
